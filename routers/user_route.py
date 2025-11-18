@@ -1,4 +1,5 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Body
+from pydantic import BaseModel
 from controllers.user_controller import (
     update_profile,
     update_password,
@@ -8,22 +9,31 @@ from controllers.user_controller import (
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
-
-@router.put("/profile")
-def update_profile_route(nickname: str):
-    return update_profile(nickname)
+class ProfileUpdate(BaseModel):
+    nickname: str
 
 
-@router.put("/password")
-def update_password_route(password: str, confirm_password: str):
-    return update_password(password, confirm_password)
+class PasswordUpdate(BaseModel):
+    password: str
+    confirm_password: str
+
+# 프로필 수정
+@router.put("/{user_id}/profile")
+def update_profile_route(user_id: int, body: ProfileUpdate):
+    return update_profile(user_id, body.nickname)
+
+
+# 비밀번호 수정
+@router.put("/{user_id}/password")
+def update_password_route(user_id: int, body: PasswordUpdate):
+    return update_password(user_id, body.password, body.confirm_password)
 
 
 @router.post("/logout")
 def logout_route():
     return logout()
 
-
-@router.delete("/delete")
-def delete_user_route():
-    return delete_user()
+# 회원탈퇴
+@router.delete("/{user_id}")
+def delete_user_route(user_id: int):
+    return delete_user(user_id)

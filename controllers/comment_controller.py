@@ -46,3 +46,4 @@ def delete_comment(comment_id: int):
 
 def get_comments(post_id: int):
     return [c for c in comments if c["post_id"] == post_id]
+
