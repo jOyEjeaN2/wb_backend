@@ -5,7 +5,9 @@ import re
 users = []
 user_id = 1
 
-def signup(email: str, password: str, password_confirm: str, nickname: str):
+def signup(email: str, password: str, password_confirm: str, nickname: str, profile_image: str = None):
+    global user_id
+
     # 이메일 검사
     if not email:
         raise HTTPException(400, "이메일을 입력해주세요")
@@ -59,9 +61,11 @@ def signup(email: str, password: str, password_confirm: str, nickname: str):
         "user_id" : user_id,
         "email": email,
         "password": password,
-        "nickname": nickname
+        "nickname": nickname,
+        "profile_image": profile_image
     }
     users.append(new_user)
+    user_id += 1
 
     return {"message": "회원가입 완료", "user": new_user}
 

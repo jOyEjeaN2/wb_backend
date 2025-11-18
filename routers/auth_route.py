@@ -10,6 +10,7 @@ class SignupReq(BaseModel):
     password: str
     password_confirm: str
     nickname: str
+    profile_image: str | None = None
 
 
 class LoginReq(BaseModel):
@@ -19,7 +20,7 @@ class LoginReq(BaseModel):
 
 @router.post("/signup")
 def signup_route(body: SignupReq):
-    return signup(body.email, body.password, body.password_confirm, body.nickname)
+    return signup(body.email, body.password, body.password_confirm, body.nickname, body.profile_image)
 
 
 @router.post("/login")
