@@ -16,6 +16,7 @@ router = APIRouter(prefix="/posts", tags=["Posts"])
 class PostCreate(BaseModel):
     title: str
     content: str
+    image : str | None = None
 
 class PostUpdate(BaseModel):
     title: str
